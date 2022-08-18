@@ -1,0 +1,14 @@
+{
+	"messages":
+	[
+		"I don't know that command.",
+		"Sorry, I don't know that command.",
+		"I'm not sure I understand that command.",
+		"Maybe you misspelled something.",
+		"Don't know that one.",
+		"Huh, that's new.",
+		"Did you perhaps mean to say something else?",
+		"I'm not sure I understand you.",
+		"Try again with different spelling."
+	]
+}

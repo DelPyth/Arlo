@@ -1,0 +1,29 @@
+{
+	"success":
+	{
+		"messages":
+		[
+			"Here's your fox.",
+			"Here, have a fox.",
+			"It's dangerous to go alone, take this.",
+			"fox",
+			"Have a fox.",
+			"Enjoy this fox.",
+			"This is a fox, look at it."
+		]
+	},
+	"failure":
+	{
+		"messages":
+		[
+			"My database seems to be down. Maybe try again sometime later?",
+			"I'm sorry, I can't find a fox for you.",
+			"I'm afraid I can't find a fox for you.",
+			"Oops, I can't find a fox.",
+			"Foxxo not found.",
+			"This fox is an illusion.",
+			"All your fox are belong to us.",
+			"Results for: **fox** 0 / 0"
+		]
+	}
+}

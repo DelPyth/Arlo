@@ -1,0 +1,30 @@
+{
+	"success":
+	{
+		"messages":
+		[
+			"Here's your cat.",
+			"Here, have a cat.",
+			"It's dangerous to go alone, take this.",
+			"CAT",
+			"KITTY",
+			"Have a catto.",
+			"Enjoy this cat.",
+			"This is a cat, look at it."
+		]
+	},
+	"failure":
+	{
+		"messages":
+		[
+			"My database seems to be down. Maybe try again sometime later?",
+			"I'm sorry, I can't find a cat for you.",
+			"I'm afraid I can't find a cat for you.",
+			"Oops, I can't find a cat.",
+			"Catto not found.",
+			"This cat is an illusion.",
+			"All your cat are belong to us.",
+			"Results for: **cat** 0 / 0"
+		]
+	}
+}

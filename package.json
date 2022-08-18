@@ -1,0 +1,22 @@
+{
+  "name": "arlo",
+  "version": "1.0.0",
+  "description": "A simple, no permission bot to do basic and tedious everyday tasks. Need help? Use `~help`.",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "node ./index.mjs --debug"
+  },
+  "keywords": [
+    "discord.js",
+    "no permissions",
+    "simple",
+    "no mod"
+  ],
+  "author": "TopHatCat",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.2.0",
+    "node-fetch": "^3.2.10",
+    "request": "^2.88.2"
+  }
+}

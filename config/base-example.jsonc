@@ -1,0 +1,31 @@
+// This file is in a jsonc format.
+// Meaning that it is a json file with comments.
+// In order to set this file as the base config,
+// you must remove all comments and rename this file to be "base.json".
+// This is a template for the real config.
+
+{
+	// Your token.
+	// Remember to keep this hidden from anyone you don't 100% trust.
+	"token": "YOUR TOKEN HERE",
+
+	// The prefix to use for commands.
+	"prefix": "%",
+
+	"owner":
+	{
+		// This is where you put the id of the owner of the bot. This should be you.
+		// Don't know how to get this? Right click your user and click "Copy ID".
+		// Don't see this option? Go to Settings > Advanced, and toggle Developer Mode to be ON.
+		// You may turn it off after you're done, it doesn't do anything extroordinary.
+		"id": 0,
+
+		// Just your name, not the discriminator (#9001).
+		"name": "YOUR NAME HERE",
+
+		// The avatar of the owner.
+		// This cannot be a file on your own drive. You must link to an image hosted on a website.
+		// You can save your avatar to a private server and link to it here.
+		"avatar": "YOUR AVATAR URL HERE"
+	}
+}
