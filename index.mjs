@@ -264,8 +264,8 @@ class Arlo
 	printHelp()
 	{
 		console.log("Usage:");
-		console.log("\tnode index.cjs [--help] [--token <token>] [--debug]");
-		console.log("\tnode . [--help] [--debug] [--list]");
+		console.log("\tnode index.cjs [--help] [--debug]");
+		console.log("\tnode . [--help] [--debug]");
 		console.log("Flags:");
 		console.log("\t--help        Show this help message.");
 		console.log("\t--debug       Enable debug mode.");
