@@ -82,18 +82,6 @@ export default class Cmd extends BaseCommand
 		return embed;
 	}
 
-	static chooseRandom(array)
-	{
-		let rando = Math.floor(Math.random() * array.length);
-		if (rando == this.cached_index)
-		{
-			rando = (rando + 1) % array.length;
-		}
-		this.cached_index = rando;
-
-		return array[rando];
-	}
-
 	static findCommand(name, commands)
 	{
 		let cmds = Object.getOwnPropertyNames(commands);
@@ -105,5 +93,17 @@ export default class Cmd extends BaseCommand
 			}
 		}
 		return null;
+	}
+
+	static chooseRandom(array)
+	{
+		let rando = Math.floor(Math.random() * array.length);
+		if (rando == this.cached_index)
+		{
+			rando = (rando + 1) % array.length;
+		}
+		this.cached_index = rando;
+
+		return array[rando];
 	}
 };
