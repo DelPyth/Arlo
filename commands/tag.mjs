@@ -54,10 +54,7 @@ export default class Cmd extends BaseCommand
 			console.error(err)
 		}
 
-		// Colors for success and error messages.
-		this.error_color = "#B00020";
-		this.success_color = "#198754";
-		this.bot_color = "#FF9900";
+		this.colors = null;
 	}
 
 	static async exit()
@@ -68,6 +65,11 @@ export default class Cmd extends BaseCommand
 
 	static async run({message, args, config})
 	{
+		if (this.colors == null)
+		{
+			this.colors = config.colors;
+		}
+
 		// If no arguments, show the usage.
 		if (args.length == 0)
 		{
@@ -97,7 +99,7 @@ export default class Cmd extends BaseCommand
 			// If the user has admin permissions, or if it's the bot owner, add the tag.
 			if (!message.member.permissions.has("MANAGE_MESSAGES") || message.author.id != config.owner.id)
 			{
-				message.channel.send({embeds: [this.addEmbed("You do not have the proper role to add tags.", this.error_color).setTitle("Error")]});
+				message.channel.send({embeds: [this.addEmbed("You do not have the proper role to add tags.", this.colors.error).setTitle("Error")]});
 				return false;
 			}
 
@@ -107,14 +109,14 @@ export default class Cmd extends BaseCommand
 				return false;
 			}
 
-			message.channel.send({embeds: [this.addEmbed("Tag `" + tag_name + "` has been added.", this.success_color).setTitle("Success")]});
+			message.channel.send({embeds: [this.addEmbed("Tag `" + tag_name + "` has been added.", this.colors.success).setTitle("Success")]});
 		}
 		else if (action == "edit")
 		{
 			// If the user has admin permissions, or if it's the bot owner, edit the tag.
 			if (!message.member.permissions.has("MANAGE_MESSAGES") || message.author.id != config.owner.id)
 			{
-				message.channel.send({embeds: [this.addEmbed("You do not have the proper role to edit tags.", this.error_color).setTitle("Error")]});
+				message.channel.send({embeds: [this.addEmbed("You do not have the proper role to edit tags.", this.colors.error).setTitle("Error")]});
 				return false;
 			}
 
@@ -124,14 +126,14 @@ export default class Cmd extends BaseCommand
 				return false;
 			}
 
-			message.channel.send({embeds: [this.addEmbed("Tag `" + tag_name + "` has been edited.", this.success_color).setTitle("Success")]});
+			message.channel.send({embeds: [this.addEmbed("Tag `" + tag_name + "` has been edited.", this.colors.success).setTitle("Success")]});
 		}
 		else if (action == "remove")
 		{
 			// If the user has admin permissions, or if it's the bot owner, remove the tag.
 			if (!message.member.permissions.has("MANAGE_MESSAGES") || message.author.id != config.owner.id)
 			{
-				message.channel.send({embeds: [this.addEmbed("You do not have the proper role to remove tags.", this.error_color).setTitle("Error")]});
+				message.channel.send({embeds: [this.addEmbed("You do not have the proper role to remove tags.", this.colors.error).setTitle("Error")]});
 				return false;
 			}
 
@@ -141,14 +143,14 @@ export default class Cmd extends BaseCommand
 				return false;
 			}
 
-			message.channel.send({embeds: [this.addEmbed("Tag `" + tag_name + "` has been removed.", this.success_color).setTitle("Success")]});
+			message.channel.send({embeds: [this.addEmbed("Tag `" + tag_name + "` has been removed.", this.colors.success).setTitle("Success")]});
 		}
 		else if (action == "clear")
 		{
 			// If the user has admin permissions, or if it's the bot owner, clear the tags.
 			if (!message.member.permissions.has("MANAGE_MESSAGES") || message.author.id != config.owner.id)
 			{
-				message.channel.send({embeds: [this.addEmbed("You do not have the proper role to clear tags.", this.error_color).setTitle("Error")]});
+				message.channel.send({embeds: [this.addEmbed("You do not have the proper role to clear tags.", this.colors.error).setTitle("Error")]});
 				return false;
 			}
 
@@ -158,7 +160,7 @@ export default class Cmd extends BaseCommand
 				return false;
 			}
 
-			message.channel.send({embeds: [this.addEmbed("All tags have been removed.", this.success_color).setTitle("Success")]});
+			message.channel.send({embeds: [this.addEmbed("All tags have been removed.", this.colors.success).setTitle("Success")]});
 		}
 		else if (action == "list")
 		{
@@ -168,7 +170,7 @@ export default class Cmd extends BaseCommand
 				return false;
 			}
 
-			message.channel.send({embeds: [this.addEmbed(result, this.success_color).setTitle("These are the tags for this server.")]});
+			message.channel.send({embeds: [this.addEmbed(result, this.colors.success).setTitle("These are the tags for this server.")]});
 		}
 		else
 		{
@@ -178,7 +180,7 @@ export default class Cmd extends BaseCommand
 				return false;
 			}
 
-			message.channel.send({embeds: [this.addEmbed(result, this.bot_color)]});
+			message.channel.send({embeds: [this.addEmbed(result, this.colors.bot)]});
 		}
 
 		// EXIT_SUCCESS
@@ -191,7 +193,7 @@ export default class Cmd extends BaseCommand
 		// If the tag wasn't provided, display an error.
 		if (tag_name == null)
 		{
-			message.channel.send({embeds: [this.addEmbed("You must provide a tag name.", this.error_color).setTitle("Error")]});
+			message.channel.send({embeds: [this.addEmbed("You must provide a tag name.", this.colors.error).setTitle("Error")]});
 			return false;
 		}
 
@@ -204,14 +206,14 @@ export default class Cmd extends BaseCommand
 		// If the tag already exists, display an error.
 		if (tag_name in this.database[message.guild.id])
 		{
-			message.channel.send({embeds: [this.addEmbed("A tag with that name already exists.", this.error_color).setTitle("Error")]});
+			message.channel.send({embeds: [this.addEmbed("A tag with that name already exists.", this.colors.error).setTitle("Error")]});
 			return false;
 		}
 
 		// If the content for the tag wasn't provided, display an error.
 		if (!content)
 		{
-			message.channel.send({embeds: [this.addEmbed("You must specify content for the tag.", this.error_color).setTitle("Error")]});
+			message.channel.send({embeds: [this.addEmbed("You must specify content for the tag.", this.colors.error).setTitle("Error")]});
 			return false;
 		}
 
@@ -225,28 +227,28 @@ export default class Cmd extends BaseCommand
 		// If the tag wasn't provided, display an error.
 		if (tag_name == null)
 		{
-			message.channel.send({embeds: [this.addEmbed("You must provide a tag name.", this.error_color).setTitle("Error")]});
+			message.channel.send({embeds: [this.addEmbed("You must provide a tag name.", this.colors.error).setTitle("Error")]});
 			return false;
 		}
 
 		// If the tag doesn't exist, display an error.
 		if (!(tag_name in this.database[message.guild.id]))
 		{
-			message.channel.send({embeds: [this.addEmbed("A tag with that name does not exist.", this.error_color).setTitle("Error")]});
+			message.channel.send({embeds: [this.addEmbed("A tag with that name does not exist.", this.colors.error).setTitle("Error")]});
 			return false;
 		}
 
 		// If the content for the tag wasn't provided, display an error.
 		if (!content)
 		{
-			message.channel.send({embeds: [this.addEmbed("You must specify content for the tag.", this.error_color).setTitle("Error")]});
+			message.channel.send({embeds: [this.addEmbed("You must specify content for the tag.", this.colors.error).setTitle("Error")]});
 			return false;
 		}
 
 		// If the content for the tag is the same as the current content, display an error.
 		if (content.join(' ') == this.database[message.guild.id][tag_name])
 		{
-			message.channel.send({embeds: [this.addEmbed("The tag content is the same as the current content.", this.error_color).setTitle("Error")]});
+			message.channel.send({embeds: [this.addEmbed("The tag content is the same as the current content.", this.colors.error).setTitle("Error")]});
 			return false;
 		}
 
@@ -260,7 +262,7 @@ export default class Cmd extends BaseCommand
 		// If the tag wasn't provided, display an error.
 		if (tag_name == null)
 		{
-			message.channel.send({embeds: [this.addEmbed("You must specify a tag name.", this.error_color).setTitle("Error")]});
+			message.channel.send({embeds: [this.addEmbed("You must specify a tag name.", this.colors.error).setTitle("Error")]});
 			return false;
 		}
 
@@ -268,14 +270,14 @@ export default class Cmd extends BaseCommand
 		if (!(message.guild.id in this.database))
 		{
 			this.database[message.guild.id] = {};
-			message.channel.send({embeds: [this.addEmbed("There are no tags for this server.", this.error_color).setTitle("Error")]});
+			message.channel.send({embeds: [this.addEmbed("There are no tags for this server.", this.colors.error).setTitle("Error")]});
 			return false;
 		}
 
 		// If the tag doesn't exist, display an error.
 		if (!(tag_name in this.database[message.guild.id]))
 		{
-			message.channel.send({embeds: [this.addEmbed("A tag with that name does not exist.", this.error_color).setTitle("Error")]});
+			message.channel.send({embeds: [this.addEmbed("A tag with that name does not exist.", this.colors.error).setTitle("Error")]});
 			return false;
 		}
 
@@ -290,7 +292,7 @@ export default class Cmd extends BaseCommand
 		if (!(message.guild.id in this.database))
 		{
 			this.database[message.guild.id] = {};
-			message.channel.send({embeds: [this.addEmbed("There are no tags for this server.", this.error_color).setTitle("Error")]});
+			message.channel.send({embeds: [this.addEmbed("There are no tags for this server.", this.colors.error).setTitle("Error")]});
 			return false;
 		}
 
@@ -312,7 +314,7 @@ export default class Cmd extends BaseCommand
 		// If there are no tags, display an error.
 		if (tags.length == 0)
 		{
-			message.channel.send({embeds: [this.addEmbed("There are no tags for this server.", this.error_color).setTitle("Error")]});
+			message.channel.send({embeds: [this.addEmbed("There are no tags for this server.", this.colors.error).setTitle("Error")]});
 
 			// EXIT_FAILURE
 			return false;
@@ -328,13 +330,13 @@ export default class Cmd extends BaseCommand
 		if (!(message.guild.id in this.database))
 		{
 			this.database[message.guild.id] = {};
-			message.channel.send({embeds: [this.addEmbed("There are no tags for this server.", this.error_color).setTitle("Error")]});
+			message.channel.send({embeds: [this.addEmbed("There are no tags for this server.", this.colors.error).setTitle("Error")]});
 		}
 
 		// If the tag doesn't exist, display an error.
 		if (!(tag_name in this.database[message.guild.id]))
 		{
-			message.channel.send({embeds: [this.addEmbed("A tag with that name does not exist.", this.error_color).setTitle("Error")]});
+			message.channel.send({embeds: [this.addEmbed("A tag with that name does not exist.", this.colors.error).setTitle("Error")]});
 		}
 
 		return this.database[message.guild.id][tag_name];

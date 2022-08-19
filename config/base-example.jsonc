@@ -27,5 +27,12 @@
 		// This cannot be a file on your own drive. You must link to an image hosted on a website.
 		// You can save your avatar to a private server and link to it here.
 		"avatar": "YOUR AVATAR URL HERE"
+	},
+
+	"colors":
+	{
+		"error": "#B00020",
+		"success": "#198754",
+		"bot": "#029FBA"
 	}
 }
