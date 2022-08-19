@@ -2,6 +2,10 @@
 # So uh... not showing that in public, thank you.
 config/base.json
 
+# This is used for the tag command.
+# You don't need this file as it's personal to the Arlo bot, it will create it if it doesn't exist.
+database/tag.json
+
 
 ################################################################################################
 # The following was taken from the gitignore repo so we don't have clutter in the repo itself. #

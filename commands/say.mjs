@@ -16,8 +16,7 @@ export default class Cmd extends BaseCommand
 	static rules = {
 		delete_message:     true,
 		owner_only:         false,
-		nsfw_only:          false,
-		internals_required: false
+		nsfw_only:          false
 	};
 
 	static async init()
@@ -27,7 +26,7 @@ export default class Cmd extends BaseCommand
 		this.cached_index = 0;
 	}
 
-	static async run(message, args)
+	static async run({message, args})
 	{
 		// If they didn't say anything, use a random message.
 		if (args.length == 0)

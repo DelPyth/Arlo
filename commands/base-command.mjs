@@ -28,15 +28,13 @@ export default class BaseCommand
 		/** @type {boolean} Whether the command can only be used by owner or not. */
 		owner_only:         false,
 		/** @type {boolean} Whether the command can only be used in an nsfw channel or not. */
-		nsfw_only:          false,
-		/** @type {boolean} Whether the command needs information such as the command list and the bot's config. */
-		internals_required: false
+		nsfw_only:          false
 	};
 
 	/**
 	 * @name init
-	 * @description Initializes the command. Use this to create a connection for web scrapers, open a handle for a file, or manage config stuff before the command is ran.
-	 * @note Only runs once.
+	 * @description Initializes the command. Use this to create a connection for web scrapers, open a handle for a file, or manage config stuff when the bot is first ran.
+	 * @note Only runs once when bot is initialized.
 	*/
 	static init()
 	{
@@ -44,15 +42,26 @@ export default class BaseCommand
 	}
 
 	/**
+	 * @name exit
+	 * @description Close any open handles or connections before the bot is exited.
+	 * @note Only runs once when bot is closed.
+	*/
+	static exit()
+	{
+		return;
+	}
+
+	/**
 	 * @name run
 	 * @description Runs the command.
-	 * @param {Discord.Message} message The message that triggered the command.
-	 * @param {string[]} args The arguments that were passed to the command.
-	 * @param {Object} commands `rules.internals_required` must be true. The commands list of the bot.
-	 * @param {Object} config `rules.internals_required` must be true. The config object of the bot.
+	 * @param {Object} obj The parameters passed to this command are passed via a map object.
+	 *   {Discord.Message} message   The message that triggered the command.
+	 *   {string[]}        args      The arguments that were passed to the command.
+	 *   {Object}          commands  The commands list of the bot.
+	 *   {Object}          config    The config object of the bot.
 	 * @note Runs every time the command is ran.
 	*/
-	static async run(message, args)
+	static async run({message, args})
 	{
 		throw new Error("Command not implemented.");
 	}

@@ -18,8 +18,7 @@ export default class Cmd extends BaseCommand
 	static rules = {
 		delete_message:     false,
 		owner_only:         false,
-		nsfw_only:          false,
-		internals_required: false
+		nsfw_only:          false
 	};
 
 	static async init()
@@ -29,7 +28,7 @@ export default class Cmd extends BaseCommand
 		this.cached_index = 0;
 	}
 
-	static async run(message, args)
+	static async run({message, args})
 	{
 		const failure_message = this.chooseRandom(this.config.failure.messages);
 		const success_message = this.chooseRandom(this.config.success.messages);

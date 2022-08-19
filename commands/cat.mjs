@@ -28,7 +28,7 @@ export default class Cmd extends BaseCommand
 		this.cached_index = 0;
 	}
 
-	static async run(message, args)
+	static async run({message, args})
 	{
 		const failure_message = this.chooseRandom(this.config.failure.messages);
 		const success_message = this.chooseRandom(this.config.success.messages);

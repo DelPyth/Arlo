@@ -17,8 +17,7 @@ export default class Cmd extends BaseCommand
 	static rules = {
 		delete_message:     true,
 		owner_only:         false,
-		nsfw_only:          false,
-		internals_required: true
+		nsfw_only:          false
 	};
 
 	static async init()
@@ -28,7 +27,7 @@ export default class Cmd extends BaseCommand
 		this.cached_index = 0;
 	}
 
-	static async run(message, args, commands, config)
+	static async run({message, args, commands, config})
 	{
 		// If they didn't give us any arguments, list the available commands.
 		if (args.length == 0)
@@ -53,7 +52,15 @@ export default class Cmd extends BaseCommand
 		embed.setColor("#ff9900");
 		embed.setAuthor({name: config.owner.name, iconURL: config.owner.avatar});
 		embed.setDescription(command.description);
-		embed.addFields({name: "Usage", value: '```\n' + config.prefix + command.usage + '\n```'});
+
+		let msg = "";
+		let split_usage = command.usage.split("\n");
+		for (let i = 0; i < split_usage.length; i++)
+		{
+			msg += config.prefix + split_usage[i] + "\n";
+		}
+		embed.addFields({name: "Usage", value: '```\n' + msg + '\n```'});
+
 		let param_doc = "`<variable: type>` Required.\n";
 			param_doc += "`[variable: type]` Optional.\n";
 			param_doc += "`{variable: type}` URI-like flags separated by semicolons (`name=George;age=24;message=Hello world!`). Optional.";

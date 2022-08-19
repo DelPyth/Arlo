@@ -103,6 +103,7 @@ class Arlo
 				GatewayIntentBits.Guilds,
 				GatewayIntentBits.GuildMembers,
 				GatewayIntentBits.GuildMessages,
+				GatewayIntentBits.GuildPresences,
 				GatewayIntentBits.MessageContent
 			]
 		});
@@ -189,6 +190,7 @@ class Arlo
 		// Check if the command requires to be the owner of the bot.
 		if (this.commands[command_name].rules.owner_only && message.author.id != this.config.owner.id)
 		{
+			message.channel.send(`You must be the owner of the bot to use this command.`);
 			return;
 		}
 
@@ -199,15 +201,12 @@ class Arlo
 		}
 
 		// Check if the command requires internal information, such as the command list.
-		if (this.commands[command_name].rules.internals_required)
-		{
-			this.commands[command_name].run(message, args, this.commands, this.config);
-		}
-		else
-		{
-			// Execute the command
-			this.commands[command_name].run(message, args)
-		}
+		this.commands[command_name].run({
+			message:    message,
+			args:       args,
+			commands:   this.commands,
+			config:     this.config
+		});
 
 		// Log the command
 		if (this.debug_level >= DEV_LEVEL_INFO)
@@ -233,6 +232,15 @@ class Arlo
 			this.client.destroy();
 		}
 		catch (e) {}
+
+		let cmds = Object.getOwnPropertyNames(this.commands);
+		for (let i = 0; i < cmds.length; i++)
+		{
+			if (typeof(this.commands[cmds[i]].exit) == "function")
+			{
+				this.commands[cmds[i]].exit();
+			}
+		}
 		process.exit();
 	}
 
