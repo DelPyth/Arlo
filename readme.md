@@ -29,7 +29,7 @@ If you so choose to download this repository (or clone it) and use it as your ow
 - [ ] Possibly add pony command for random pony picture (maybe? Debatable).
 - [ ] Add dictionary command.
 - [ ] Add thesaurus command.
-- [ ] Add tag command.
+- [x] Add tag command.
 	- `ADD` subcommand to add new tag.
 	- `REMOVE` subcommand to remove created tag.
 	- `LIST` subcommand to show tags.
