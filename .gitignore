@@ -6,6 +6,8 @@ config/base.json
 # You don't need this file as it's personal to the Arlo bot, it will create it if it doesn't exist.
 database/tag.json
 
+# Not really needed, I have this for any webhooks I want to create with the same profile picture.
+assets
 
 ################################################################################################
 # The following was taken from the gitignore repo so we don't have clutter in the repo itself. #
