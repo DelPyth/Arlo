@@ -94,93 +94,120 @@ export default class Cmd extends BaseCommand
 		// Fuck if switch statements work right?
 		// I don't know if it was my own incompetence or that JS fucked me over with switch statements,
 		// but I'm going to keep it as an if-else chain for now.
-		if (action == "add")
+		switch (action)
 		{
-			// If the user has admin permissions, or if it's the bot owner, add the tag.
-			if (!message.member.permissions.has("MANAGE_MESSAGES") || message.author.id != config.owner.id)
+			case "add":
 			{
-				message.channel.send({embeds: [this.addEmbed("You do not have the proper role to add tags.", this.colors.error).setTitle("Error")]});
-				return false;
-			}
+				// If the user has "manage messages" permission, or if it's the bot owner, add the tag.
+				if (!message.member.permissions.has("MANAGE_MESSAGES") || message.author.id != config.owner.id)
+				{
+					message.channel.send({embeds: [this.addEmbed("You do not have the proper role to add tags.", this.colors.error).setTitle("Error")]});
+					return false;
+				}
 
-			result = this.addTag(message, tag_name, content);
-			if (!result)
+				result = this.addTag(message, tag_name, content);
+				if (!result)
+				{
+					return false;
+				}
+
+				message.channel.send({embeds: [this.addEmbed("Tag `" + tag_name + "` has been added.", this.colors.success).setTitle("Success")]});
+				break;
+			}
+			case "edit":
 			{
-				return false;
-			}
+				// If the user has "manage messages" permission, or if it's the bot owner, edit the tag.
+				if (!message.member.permissions.has("MANAGE_MESSAGES") || message.author.id != config.owner.id)
+				{
+					message.channel.send({embeds: [this.addEmbed("You do not have the proper role to edit tags.", this.colors.error).setTitle("Error")]});
+					return false;
+				}
 
-			message.channel.send({embeds: [this.addEmbed("Tag `" + tag_name + "` has been added.", this.colors.success).setTitle("Success")]});
-		}
-		else if (action == "edit")
-		{
-			// If the user has admin permissions, or if it's the bot owner, edit the tag.
-			if (!message.member.permissions.has("MANAGE_MESSAGES") || message.author.id != config.owner.id)
+				result = this.editTag(message, tag_name, content);
+				if (!result)
+				{
+					return false;
+				}
+
+				message.channel.send({embeds: [this.addEmbed("Tag `" + tag_name + "` has been edited.", this.colors.success).setTitle("Success")]});
+				break;
+			}
+			case "alias":
 			{
-				message.channel.send({embeds: [this.addEmbed("You do not have the proper role to edit tags.", this.colors.error).setTitle("Error")]});
-				return false;
-			}
+				// If the user has "manage messages" permission, or if it's the bot owner, remove the tag.
+				if (!message.member.permissions.has("MANAGE_MESSAGES") || message.author.id != config.owner.id)
+				{
+					message.channel.send({embeds: [this.addEmbed("You do not have the proper role to alias tags.", this.colors.error).setTitle("Error")]});
+					return false;
+				}
 
-			result = this.editTag(message, tag_name, content);
-			if (!result)
+				result = this.aliasTag(message, tag_name, content);
+				if (!result)
+				{
+					return false;
+				}
+
+				message.channel.send({embeds: [this.addEmbed("Tag `" + tag_name + "` has been aliased.", this.colors.success).setTitle("Success")]});
+				break;
+			}
+			case "remove":
 			{
-				return false;
-			}
+				// If the user has "manage messages" permission, or if it's the bot owner, remove the tag.
+				if (!message.member.permissions.has("MANAGE_MESSAGES") || message.author.id != config.owner.id)
+				{
+					message.channel.send({embeds: [this.addEmbed("You do not have the proper role to remove tags.", this.colors.error).setTitle("Error")]});
+					return false;
+				}
 
-			message.channel.send({embeds: [this.addEmbed("Tag `" + tag_name + "` has been edited.", this.colors.success).setTitle("Success")]});
-		}
-		else if (action == "remove")
-		{
-			// If the user has admin permissions, or if it's the bot owner, remove the tag.
-			if (!message.member.permissions.has("MANAGE_MESSAGES") || message.author.id != config.owner.id)
+				result = this.removeTag(message, tag_name);
+				if (!result)
+				{
+					return false;
+				}
+
+				message.channel.send({embeds: [this.addEmbed("Tag `" + tag_name + "` has been removed.", this.colors.success).setTitle("Success")]});
+				break;
+			}
+			case "clear":
 			{
-				message.channel.send({embeds: [this.addEmbed("You do not have the proper role to remove tags.", this.colors.error).setTitle("Error")]});
-				return false;
-			}
+				// If the user has "manage messages" permission, or if it's the bot owner, clear the tags.
+				if (!message.member.permissions.has("MANAGE_MESSAGES") || message.author.id != config.owner.id)
+				{
+					message.channel.send({embeds: [this.addEmbed("You do not have the proper role to clear tags.", this.colors.error).setTitle("Error")]});
+					return false;
+				}
 
-			result = this.removeTag(message, tag_name);
-			if (!result)
+				result = this.clearTags(message);
+				if (!result)
+				{
+					return false;
+				}
+
+				message.channel.send({embeds: [this.addEmbed("All tags have been removed.", this.colors.success).setTitle("Success")]});
+				break;
+			}
+			case "list":
 			{
-				return false;
-			}
+				result = this.listTags(message);
+				if (!result)
+				{
+					return false;
+				}
 
-			message.channel.send({embeds: [this.addEmbed("Tag `" + tag_name + "` has been removed.", this.colors.success).setTitle("Success")]});
-		}
-		else if (action == "clear")
-		{
-			// If the user has admin permissions, or if it's the bot owner, clear the tags.
-			if (!message.member.permissions.has("MANAGE_MESSAGES") || message.author.id != config.owner.id)
+				message.channel.send({embeds: [this.addEmbed(result, this.colors.success).setTitle("These are the tags for this server.")]});
+				break;
+			}
+			default:
 			{
-				message.channel.send({embeds: [this.addEmbed("You do not have the proper role to clear tags.", this.colors.error).setTitle("Error")]});
-				return false;
-			}
+				result = this.getTag(message, action);
+				if (!result)
+				{
+					return false;
+				}
 
-			result = this.clearTags(message);
-			if (!result)
-			{
-				return false;
+				message.channel.send({embeds: [this.addEmbed(result, this.colors.bot)]});
+				break;
 			}
-
-			message.channel.send({embeds: [this.addEmbed("All tags have been removed.", this.colors.success).setTitle("Success")]});
-		}
-		else if (action == "list")
-		{
-			result = this.listTags(message);
-			if (!result)
-			{
-				return false;
-			}
-
-			message.channel.send({embeds: [this.addEmbed(result, this.colors.success).setTitle("These are the tags for this server.")]});
-		}
-		else
-		{
-			result = this.getTag(message, action);
-			if (!result)
-			{
-				return false;
-			}
-
-			message.channel.send({embeds: [this.addEmbed(result, this.colors.bot)]});
 		}
 
 		// EXIT_SUCCESS
@@ -253,6 +280,44 @@ export default class Cmd extends BaseCommand
 		}
 
 		this.database[message.guild.id][tag_name] = content.join(' ');
+		return true;
+	}
+
+	// Add an alias to an existing tag in the database.
+	static aliasTag(message, alias_name, tag_name)
+	{
+		if (alias_name == null)
+		{
+			message.channel.send({embeds: [this.addEmbed("You must provide an alias name.", this.colors.error).setTitle("Error")]});
+			return false;
+		}
+
+		if (tag_name == null)
+		{
+			message.channel.send({embeds: [this.addEmbed("You must provide a tag name.", this.colors.error).setTitle("Error")]});
+			return false;
+		}
+
+		if (!(tag_name in this.database[message.guild.id]))
+		{
+			message.channel.send({embeds: [this.addEmbed("A tag with that name does not exist.", this.colors.error).setTitle("Error")]});
+			return false;
+		}
+
+		if (alias_name in this.database[message.guild.id])
+		{
+			message.channel.send({embeds: [this.addEmbed("An alias with that name already exists.", this.colors.error).setTitle("Error")]});
+			return false;
+		}
+
+		// If the tag to be aliased is an alias of another tag, display an error.
+		if ((tag_name in this.database[message.guild.id]) && (this.database[message.guild.id][tag_name].startsWith("%alias=")))
+		{
+			message.channel.send({embeds: [this.addEmbed("The tag is already aliased to another tag.", this.colors.error).setTitle("Error")]});
+			return false;
+		}
+
+		this.database[message.guild.id][alias_name] = "%alias=" + tag_name;
 		return true;
 	}
 
@@ -337,6 +402,12 @@ export default class Cmd extends BaseCommand
 		if (!(tag_name in this.database[message.guild.id]))
 		{
 			message.channel.send({embeds: [this.addEmbed("A tag with that name does not exist.", this.colors.error).setTitle("Error")]});
+		}
+
+		// If tag is an alias, get the tag it's aliased to.
+		if (this.database[message.guild.id][tag_name].startsWith("%alias="))
+		{
+			tag_name = this.database[message.guild.id][tag_name].split("%alias=")[1];
 		}
 
 		return this.database[message.guild.id][tag_name];
