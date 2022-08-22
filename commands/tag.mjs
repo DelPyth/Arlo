@@ -14,6 +14,7 @@ export default class Cmd extends BaseCommand
 	static usage          = "tag (<action: string> | <tag_name: string>)\n"
 		+ "tag add <tag_name: string> <content: string>\n"
 		+ "tag edit <tag_name: string> <content: string>\n"
+		+ "tag alias <new_alais: string> <tag_name: string>\n"
 		+ "tag remove <tag_name: string>\n"
 		+ "tag clear\n"
 		+ "tag list";
@@ -60,7 +61,7 @@ export default class Cmd extends BaseCommand
 	static async exit()
 	{
 		// Save the database.
-		fs.writeFileSync(path.join(__dirname, '../database/tag.json'), JSON.stringify(this.database));
+		fs.writeFileSync(path.join(__dirname, '../database/tag.json'), JSON.stringify(this.database, undefined, "\n"));
 	}
 
 	static async run({message, args, config})
