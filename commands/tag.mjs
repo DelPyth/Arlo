@@ -10,7 +10,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export default class Cmd extends BaseCommand
 {
 	static name           = "tag";
-	static description    = "Use a tag to send a custom preset message.";
+	static description    = "Use a tag to send a custom preset message. Any string character is allowed for a tag.";
 	static usage          = "tag (<action: string> | <tag_name: string>)\n"
 		+ "tag add <tag_name: string> <content: string>\n"
 		+ "tag edit <tag_name: string> <content: string>\n"
@@ -203,6 +203,7 @@ export default class Cmd extends BaseCommand
 				result = this.getTag(message, action);
 				if (!result)
 				{
+					message.channel.send({embeds: [this.addEmbed("Unknown tag, maybe check your spelling?", this.colors.error)]})
 					return false;
 				}
 
@@ -387,7 +388,7 @@ export default class Cmd extends BaseCommand
 		// If there are no tags, display an error.
 		if (tags.length == 0)
 		{
-			message.channel.send({embeds: [this.addEmbed("There are no tags for this server.", this.colors.error).setTitle("Error")]});
+			message.channel.send({embeds: [this.addEmbed("There are no tags for this server.", this.colors.error)]});
 			return false;
 		}
 
