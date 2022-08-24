@@ -206,12 +206,19 @@ export default class Cmd extends BaseCommand
 					return false;
 				}
 
+				// If result is a URL and an image, toss it to the embed.
+				if (this.validURL(result) && (new RegExp(/\.(?:jpg|jpeg|png|gif)$/).test(result)))
+				{
+					message.channel.send({embeds: [new EmbedBuilder().setImage(result).setColor(this.colors.bot)]})
+					return true;
+				}
+
+				// Otherwise just send the link.
 				message.channel.send({embeds: [this.addEmbed(result, this.colors.bot)]});
 				break;
 			}
 		}
 
-		// EXIT_SUCCESS
 		return true;
 	}
 
@@ -381,8 +388,6 @@ export default class Cmd extends BaseCommand
 		if (tags.length == 0)
 		{
 			message.channel.send({embeds: [this.addEmbed("There are no tags for this server.", this.colors.error).setTitle("Error")]});
-
-			// EXIT_FAILURE
 			return false;
 		}
 
@@ -420,5 +425,16 @@ export default class Cmd extends BaseCommand
 		return new EmbedBuilder()
 			.setDescription(typeof(message) == "array" ? message.join(' ') : message)
 			.setColor(color);
+	}
+
+	static validURL(str)
+	{
+		var pattern = new RegExp('^(https?:\\/\\/)?'                   // protocol
+			+ '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'       // domain name
+			+ '((\\d{1,3}\\.){3}\\d{1,3}))'                            // OR ip (v4) address
+			+ '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'                        // port and path
+			+ '(\\?[;&a-z\\d%_.~+=-]*)?'                               // query string
+			+ '(\\#[-a-z\\d_]*)?$','i');                               // fragment locator
+		return !!pattern.test(str);
 	}
 };
