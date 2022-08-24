@@ -61,7 +61,7 @@ export default class Cmd extends BaseCommand
 	static async exit()
 	{
 		// Save the database.
-		fs.writeFileSync(path.join(__dirname, '../database/tag.json'), JSON.stringify(this.database, undefined, "\n"));
+		fs.writeFileSync(path.join(__dirname, '../database/tag.json'), JSON.stringify(this.database, undefined, "\t"));
 	}
 
 	static async run({message, args, config})
