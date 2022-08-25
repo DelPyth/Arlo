@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { EmbedBuilder, PermissionsBitField } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import BaseCommand from './base-command.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -403,18 +403,20 @@ export default class Cmd extends BaseCommand
 		{
 			this.database[message.guild.id] = {};
 			message.channel.send({embeds: [this.addEmbed("There are no tags for this server.", this.colors.error).setTitle("Error")]});
+			return false;
 		}
 
 		// If the tag doesn't exist, display an error.
 		if (!(tag_name in this.database[message.guild.id]))
 		{
 			message.channel.send({embeds: [this.addEmbed("A tag with that name does not exist.", this.colors.error).setTitle("Error")]});
+			return false;
 		}
 
 		// If tag is an alias, get the tag it's aliased to.
 		if (this.database[message.guild.id][tag_name].startsWith("%alias="))
 		{
-			tag_name = this.database[message.guild.id][tag_name].split("%alias=")[1];
+			tag_name = this.database[message.guild.id][tag_name].split("%alias=")[1].trim();
 		}
 
 		return this.database[message.guild.id][tag_name];
