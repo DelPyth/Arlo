@@ -1,3 +1,6 @@
+# Ignore vscode shit. Fuck off.
+.vscode
+
 # This contains the token and owner ID.
 # So uh... not showing that in public, thank you.
 config/base.json
