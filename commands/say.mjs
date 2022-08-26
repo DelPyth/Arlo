@@ -38,8 +38,6 @@ export default class Cmd extends BaseCommand
 
 		// Otherwise, use the message they said.
 		message.channel.send(args.join(" "));
-
-		// EXIT_SUCCESS
 		return true;
 	}
 

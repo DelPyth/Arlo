@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Client, GatewayIntentBits } from 'discord.js';
+import { Client, GatewayIntentBits, EmbedBuilder } from 'discord.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -20,6 +20,7 @@ class Arlo
 		this.description  = "A simple, no permission bot to do basic and tedious everyday tasks. Need help? Use `~help`.";
 		this.commands     = {};
 		this.config       = {};
+		this.aliases      = {};
 		this.config_file  = "./config/base.json";
 		this.debug_level  = DEV_LEVEL_INFO;
 	}
@@ -65,8 +66,9 @@ class Arlo
 
 	loadCommands()
 	{
-		this.debug("Loading commands...");
-		fs.readdirSync(path.join(__dirname, "commands")).forEach(async (file) => {
+		this.debug("Loading commands and aliases...");
+		fs.readdirSync(path.join(__dirname, "commands")).forEach(async (file) =>
+		{
 			// Ignore inactive commands.
 			if (file.startsWith('_'))
 			{
@@ -91,6 +93,23 @@ class Arlo
 			let cmd = await import("./commands/" + file)
 			this.commands[cmd.default.name] = cmd.default;
 			this.commands[cmd.default.name].init();
+
+			if ('aliases' in this.commands[cmd.default.name])
+			{
+				if (this.commands[cmd.default.name].aliases != null)
+				{
+					for (let i = 0; i < this.commands[cmd.default.name].aliases.length; i++)
+					{
+						if (this.commands[cmd.default.name].aliases[i] in this.aliases)
+						{
+							console.error("Duplicate alias command: " + this.commands[cmd.default.name].aliases[i]);
+							continue;
+						}
+
+						this.aliases[this.commands[cmd.default.name].aliases[i]] = cmd.default.name;
+					}
+				}
+			}
 			this.debug(`  - \x1b[38;5;4m${cmd.default.name}\x1b[38;5;15m`);
 		});
 	}
@@ -98,8 +117,10 @@ class Arlo
 	connect()
 	{
 		// IDEA: Possibly let config do this?
-		this.client = new Client({
-			intents: [
+		this.client = new Client(
+		{
+			intents:
+			[
 				GatewayIntentBits.Guilds,
 				GatewayIntentBits.GuildMembers,
 				GatewayIntentBits.GuildMessages,
@@ -181,27 +202,46 @@ class Arlo
 		const args = message.content.slice(this.config.prefix.length).split(/ +/);
 		const command_name = args.shift().toLowerCase();
 
-		// Check if the command exists.
-		if (!(command_name in this.commands))
+		let cmd = null;
+
+		// Check if the command exists as an standard commmand or an alias.
+		if (command_name in this.commands)
 		{
+			cmd = this.commands[command_name];
+		}
+		else if (command_name in this.aliases)
+		{
+			cmd = this.commands[this.aliases[command_name]];
+		}
+		else
+		{
+			// Otherwise display an error.
+			const embed = new EmbedBuilder();
+			embed.setTitle("Unknown Command: `" + command_name + '`');
+			embed.setDescription("I do not know of this command, nor is this an alias for an existing command.\n"
+				+ "Possibly check your spelling or if this exists regardless.\n"
+				+ "Use `" + this.config.prefix + "help` to look for the command you want.");
+			embed.setColor(this.config.colors.error);
+
+			message.channel.send({embeds: [embed]});
 			return;
 		}
 
 		// Check if the command requires to be the owner of the bot.
-		if (this.commands[command_name].rules.owner_only && message.author.id != this.config.owner.id)
+		if (cmd.rules.owner_only && message.author.id != this.config.owner.id)
 		{
 			message.channel.send(`You must be the owner of the bot to use this command.`);
 			return;
 		}
 
 		// Check if the command requires to be ran only in an nsfw channel.
-		if (this.commands[command_name].rules.nsfw_only && !message.channel.nsfw)
+		if (cmd.rules.nsfw_only && !message.channel.nsfw)
 		{
 			return;
 		}
 
 		// Check if the command requires internal information, such as the command list.
-		this.commands[command_name].run({
+		cmd.run({
 			message:    message,
 			args:       args,
 			commands:   this.commands,
@@ -211,11 +251,11 @@ class Arlo
 		// Log the command
 		if (this.debug_level >= DEV_LEVEL_INFO)
 		{
-			console.log(`[${message.guild.name}] \x1b[38;5;1m${message.author.tag}\x1b[38;5;15m (\x1b[38;5;2m${message.author.id}\x1b[38;5;15m) ran command \x1b[38;5;12m${command_name}\x1b[38;5;15m%s\x1b[38;5;15m`, args.length ? ` with arguments \x1b[38;5;11m${JSON.stringify(args)}` : '');
+			console.log(`[${message.guild.name}] \x1b[38;5;1m${message.author.tag}\x1b[38;5;15m (\x1b[38;5;2m${message.author.id}\x1b[38;5;15m) ran command \x1b[38;5;12m${cmd.name}\x1b[38;5;15m%s\x1b[38;5;15m`, args.length ? ` with arguments \x1b[38;5;11m${JSON.stringify(args)}` : '');
 		}
 
 		// Attempt to delete the message. If the bot doesn't have permissions to delete the message, it will fail silently and continue on.
-		if (this.commands[command_name].rules.delete_messages)
+		if (cmd.rules.delete_messages)
 		{
 			try
 			{

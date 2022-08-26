@@ -10,15 +10,19 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export default class Cmd extends BaseCommand
 {
 	static name           = "tag";
-	static description    = "Use a tag to send a custom preset message. Any string character is allowed for a tag.";
-	static usage          = "tag (<action: string> | <tag_name: string>)\n"
-		+ "tag add <tag_name: string> <content: string>\n"
-		+ "tag edit <tag_name: string> <content: string>\n"
-		+ "tag alias <new_alais: string> <tag_name: string>\n"
-		+ "tag remove <tag_name: string>\n"
-		+ "tag clear\n"
-		+ "tag list";
-	static aliases        = [null];
+	static description    = "Use a tag to send a custom preset message. Any string character besides space is allowed for a tag as space is used to seperate command parameters.";
+	static usage          = {
+		simple: "tag (<action: string> | <tag_name: string>)",
+		complex: [
+			"tag add <tag_name: string> <content: string>",
+			"tag edit <tag_name: string> <content: string>",
+			"tag alias <new_alias: string> <tag_name: string>",
+			"tag remove <tag_name: string>",
+			"tag clear",
+			"tag list"
+		]
+	};
+	static aliases        = null;
 	static config         = null;
 	static rules = {
 		delete_message:     true,

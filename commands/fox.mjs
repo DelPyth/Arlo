@@ -60,7 +60,6 @@ export default class Cmd extends BaseCommand
 			return;
 		});
 
-		// EXIT_SUCCESS
 		return true;
 	}
 

@@ -27,15 +27,16 @@ If you so choose to download this repository (or clone it) and use it as your ow
 - [x] Add fox command for random fox picture.
 - [x] Add bunny command for random bunny picture.
 - [x] Add help command.
-- [ ] Possibly add pony command for random pony picture (maybe? Debatable).
-- [ ] Add dictionary command.
-- [ ] Add thesaurus command.
 - [x] Add tag command.
 	- `ADD` subcommand to add new tag.
 	- `REMOVE` subcommand to remove created tag.
 	- `LIST` subcommand to show tags.
-	- `EMPTY` subcommand to empty all tags from the current server.
+	- `CLEAR` subcommand to clear all tags from the current server.
 	- `EDIT` subcommand to modify existing tag.
+- [ ] Add pages to help list instead of trying to display everything.
+- [ ] Possibly add pony command for random pony picture (maybe? Debatable).
+- [ ] Add dictionary command.
+- [ ] Add thesaurus command.
 - [ ] Add bug report command.
 
 # Code Styling

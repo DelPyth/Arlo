@@ -42,7 +42,6 @@ export default class Cmd extends BaseCommand
 		{
 			const failure_message = this.chooseRandom(this.config.messages);
 			message.channel.send(failure_message);
-			// EXIT_FAILURE
 			return false;
 		}
 
@@ -51,26 +50,56 @@ export default class Cmd extends BaseCommand
 		embed.setTitle(command.name);
 		embed.setColor("#ff9900");
 		embed.setAuthor({name: config.owner.name, iconURL: config.owner.avatar});
-		embed.setDescription(command.description);
 
-		let msg = "";
-		let split_usage = command.usage.split("\n");
-		for (let i = 0; i < split_usage.length; i++)
+		if (command.usage == null || command.usage === undefined)
 		{
-			msg += config.prefix + split_usage[i] + "\n";
+			message.channel.send({embeds: [new EmbedBuilder().setColor(config.colors.error).setDescription("This command doesn't have documentation! Contact the developer to fix this!")]});
+			return false;
 		}
-		embed.addFields({name: "Usage", value: '```\n' + msg + '\n```'});
 
-		let param_doc = "`<variable: type>` Required.\n";
-			param_doc += "`[variable: type]` Optional.\n";
-			param_doc += "`{variable: type}` URI-like flags separated by semicolons (`name=George;age=24;message=Hello world!`). Optional.";
+		let description = command.description;
 
-		embed.addFields({name: "Documentation:", value: param_doc});
-		// embed.addField("Aliases", command.aliases.join(", "));
+		switch (typeof(command.usage))
+		{
+			case "string":
+			{
+				description += '\n```\n' + config.prefix + command.usage + '\n```'
+				break;
+			}
+			case "object":
+			{
+				let obj = {};
+
+				if ('simple' in command.usage)
+				{
+					obj.name = '`' + command.usage.simple + '`'
+				}
+				if ('complex' in command.usage)
+				{
+					obj.value = '```\n'
+					for (let i = 0; i < command.usage.complex.length; i++)
+					{
+						obj.value += command.usage.complex[i] + '\n';
+					}
+					obj.value += '\n```';
+				}
+				embed.addFields(obj);
+				break;
+			}
+		}
+		embed.setDescription(description);
+
+		embed.addFields({name: "Documentation:", value: "`<variable: type>` Required parameter.\n"
+			+ "`[variable: type]` Optional parameter.\n"
+			+ "`{variable: type}` URI-like flags separated by semicolons. Optional."
+		});
+
+		if (command.aliases != null)
+		{
+			embed.addFields({name: "Aliases", value: '`' + command.aliases.join(", ") + '`'});
+		}
 		embed.setFooter({text: "Developed by " + config.owner.name});
 		message.channel.send({embeds: [embed]});
-
-		// EXIT_SUCCESS
 		return true;
 	}
 
@@ -83,7 +112,26 @@ export default class Cmd extends BaseCommand
 		let cmds = Object.getOwnPropertyNames(commands);
 		for (let i = 0; i < cmds.length; i++)
 		{
-			embed.addFields({name: commands[cmds[i]].usage, value: commands[cmds[i]].description});
+			switch (typeof(commands[cmds[i]].usage))
+			{
+				case "string":
+				{
+					embed.addFields({name: '`' + config.prefix + commands[cmds[i]].usage + '`', value: commands[cmds[i]].description});
+					break;
+				}
+				case "object":
+				{
+					if ('simple' in commands[cmds[i]].usage)
+					{
+						embed.addFields({name: '`' + config.prefix + commands[cmds[i]].usage.simple + '`', value: commands[cmds[i]].description});
+					}
+					else
+					{
+						continue;
+					}
+					break;
+				}
+			}
 		}
 		embed.setFooter({text: "Developed by " + config.owner.name});
 		return embed;
