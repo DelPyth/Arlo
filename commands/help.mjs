@@ -41,7 +41,7 @@ export default class Cmd extends BaseCommand
 		if (!command)
 		{
 			const failure_message = this.chooseRandom(this.config.messages);
-			message.channel.send(failure_message);
+			message.channel.send({embeds: [new EmbedBuilder().setDescription(failure_message).setColor(config.colors.error)]});
 			return false;
 		}
 
