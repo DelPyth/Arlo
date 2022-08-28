@@ -1,6 +1,6 @@
 {
   "name": "arlo",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "A simple, no permission bot to do basic and tedious everyday tasks. Need help? Use `~help`.",
   "main": "index.mjs",
   "scripts": {
