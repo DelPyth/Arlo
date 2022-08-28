@@ -240,7 +240,7 @@ class Arlo
 			return;
 		}
 
-		// Check if the command requires internal information, such as the command list.
+		// Give every item via an object so no value is lost.
 		cmd.run({
 			message:    message,
 			args:       args,

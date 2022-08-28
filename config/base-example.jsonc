@@ -14,25 +14,58 @@
 
 	"owner":
 	{
+		// Just your name, not the discriminator (#9001).
+		"name": "YOUR NAME HERE",
+
 		// This is where you put the id of the owner of the bot. This should be you.
 		// Don't know how to get this? Right click your user and click "Copy ID".
 		// Don't see this option? Go to Settings > Advanced, and toggle Developer Mode to be ON.
 		// You may turn it off after you're done, it doesn't do anything extroordinary.
 		"id": 0,
 
-		// Just your name, not the discriminator (#9001).
-		"name": "YOUR NAME HERE",
-
 		// The avatar of the owner.
 		// This cannot be a file on your own drive. You must link to an image hosted on a website.
 		// You can save your avatar to a private server and link to it here.
-		"avatar": "YOUR AVATAR URL HERE"
+		"avatar": "YOUR AVATAR URL HERE",
+
+		// Url. Can be a github URL or just your personal website.
+		"url": "YOUR SITE HERE"
+	},
+
+	"bot":
+	{
+		// Name of your bot. Not important but it does clear some things up.
+		"name":"YOUR BOT'S NAME HERE",
+
+		// Give a description to your bot.
+		"description": "Hello world!",
+
+		// Version. Simple enough.
+		"version": "1.0.0",
+
+		// Bot ID. Get this the same way as your ID. Not currently used in the bot's
+		"id": 0,
+
+		// Source code to your bot. Can be a github repo or just a dropbox download or something.
+		"source_code": "GITHUB REPO OR DOWNLOAD HERE",
+
+		// The invite link to your bot.
+		"invite": "BOT'S INVITE LINK HERE",
+
+		// Avatar of your bot.
+		"avatar":"YOUR BOT'S AVATAR URL HERE"
 	},
 
 	"colors":
 	{
+		// The color for embeds when there's an error. You will create the embed anyway, so you can either use this, or make your own.
 		"error": "#B00020",
+
+		// The color for embeds to display a successful action.
 		"success": "#198754",
-		"bot": "#029FBA"
+
+		// The embed color to display information or an image. Not required but useful.
+		// Currently color is an soft green-like color.
+		"bot": "#02BA76"
 	}
 }
