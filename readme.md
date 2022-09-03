@@ -7,15 +7,15 @@ The following commands are already made for you. Here's a quick legend:
 - `[variable: type]` Optional.
 - `{variable: type}` URI-like flags separated by semicolons (`name=George;age=24;message=Hello world!`). Optional.
 
-| Name   | Usage                                           |
-| ------ | ----------------------------------------------- |
-| bunny  | `~bunny`                                        |
-| cat    | `~cat`                                          |
-| dog    | `~dog`                                          |
-| fox    | `~fox`                                          |
-| help   | `~help [command: string]`                       |
-| say    | `~say [message: string]`                        |
-| tag    | `~tag (<tag_name: string> | <action: string>)`  |
+| Name   | Usage                                                 |
+| ------ | ----------------------------------------------------- |
+| bunny  | `~bunny`                                              |
+| cat    | `~cat`                                                |
+| dog    | `~dog`                                                |
+| fox    | `~fox`                                                |
+| help   | `~help [command: string]`                             |
+| say    | `~say [message: string]`                              |
+| tag    | `~tag <tag_name: string>` OR `~tag <action: string>`  |
 
 # Setup and Running the Bot
 If you so choose to download this repository (or clone it) and use it as your own, you must to the following:
