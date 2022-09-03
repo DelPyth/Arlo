@@ -41,11 +41,11 @@ If you so choose to download this repository (or clone it) and use it as your ow
 - [ ] Add bug report command.
 
 # Code Styling
-My style of code is done with 4 tab indentation, Allman style bracket/indentation, and the following styling:
+My style of code is done with 4 tab indentation, [Allman style bracket/indentation](https://en.wikipedia.org/wiki/Indentation_style#Allman_style), and the following case styling:
 ```
 file-names.txt
 ClassNames
 functionNames
-CONSTANT_VARIABLES
+GLOBAL_CONSTANT_VARIABLES
 normal_variables
 ```
