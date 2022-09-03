@@ -20,7 +20,7 @@ The following commands are already made for you. Here's a quick legend:
 # Setup and Running the Bot
 If you so choose to download this repository (or clone it) and use it as your own, you must to the following:
 1. Open `config/base-example.jsonc` and read though the header entirely.
-2. Create/open `./config/base.json` and set up the parameters for your bot. Adding the token, colors, etc.
+2. Create/open `config/base.json` and set up the parameters for your bot. Adding the token, colors, etc.
 3. Install the required dependencies using `npm install`.
 4. Use `node .` in a console to start your bot.
 
