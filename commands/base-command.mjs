@@ -1,9 +1,3 @@
-/**
- * @name BaseCommand
- * @description The base command class.
- * @author TopHatCat
- * @version 1.0.0
-*/
 /*
 	You must extend this class to create a new command.
 	Override the `run` method to define the command's behavior.

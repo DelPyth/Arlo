@@ -1,5 +1,5 @@
-# Ignore vscode shit. Fuck off.
-.vscode/
+# Ignore vscode stuff.
+/.vscode
 
 # This contains the token and owner ID.
 # So uh... not showing that in public, thank you.
